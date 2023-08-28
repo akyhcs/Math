@@ -1,0 +1,70 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+public static void main(String[] args) throws IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		
+		int query = Integer.parseInt(bufferedReader.readLine().trim());
+		while (query-- >= 1) {
+			int sizeOfArr = Integer.parseInt(bufferedReader.readLine().trim());
+			int arr[] = new int[sizeOfArr];
+			String currentInputArr[] = bufferedReader.readLine().trim().split(" ");
+			initArr(arr,currentInputArr);
+			long sum =  getSumFromCurrentArr(arr);
+			System.out.println(sum);
+		}
+		bufferedReader.close();
+		inputStreamReader.close();
+
+	}
+
+	private static long getSumFromCurrentArr(int[] arr) {
+		
+		// if a current num is perfect square then it cannot have even divisor so continue
+		long currentSum = 0;
+		long sum = 0;
+		int i;
+		for( i =0 ;i<arr.length;i++)
+		{
+			int x = (int)Math.sqrt(arr[i]);
+			if(x*x==arr[i])
+				continue;
+			int count = 0;
+			currentSum=0;
+			for(int j = 2;j<=x;j++)
+			{
+				if(arr[i]%j==0)
+				{
+					currentSum = currentSum + j + (arr[i]/j);
+					count+=2;
+					if(count>2)
+					{
+						currentSum=0;
+						break;
+					}
+				}
+			}
+			if(count==2)
+				currentSum = currentSum + 1 + arr[i];
+			//System.out.println(currentSum);
+			sum = sum + currentSum;
+			
+		}
+		return sum;
+	}
+
+	private static void initArr(int[] arr, String[] currentInputArr) {
+		
+		for(int i =0 ;i<arr.length;i++)
+		{
+			arr[i] = Integer.parseInt(currentInputArr[i]);
+		}
+	}
+
+}
