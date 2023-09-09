@@ -1,0 +1,74 @@
+/*Bob and Alice are participating in a contest. There are N problems in this contest; each problem has a unique problem code between 1
+ and N inclusive. Bob and Alice decided to split the problems to solve between them ― Bob should solve the problems whose problem codes
+are divisible by A but not divisible by B, and Alice should solve the problems whose problem codes are divisible by B but not divisible by 
+A (they decided to not solve the problems whose codes are divisible by both A and B).
+To win, it is necessary to solve at least K problems. You have to tell Bob whether they are going to win or lose.
+
+Input Format
+
+The first line of the input contains a single integer T denoting the number of test cases. The description of T test cases follows.
+The first and only line of each test case contains four space-separated integers N,A,B and K
+Constraints
+
+1≤T≤15
+1≤K≤N≤10^18
+1≤A,B≤10^9
+
+Output Format
+
+For each test case, print a single line containing the string 
+"Win" if they can solve at least K problems or "Lose"
+ otherwise (without quotes)
+
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+      Scanner scanner = new Scanner(System.in);
+        int T = scanner.nextInt();
+        while(T>=1)
+        {
+        	long N=scanner.nextLong(),A=scanner.nextLong(),B=scanner.nextLong(),K=scanner.nextLong(),X;
+        	X = gcd(A, B);
+        	long totalQuestionSolved = (N/A) + (N/B) - 2*(N/lcm(X, A, B));
+        	if(totalQuestionSolved>=K)
+        	{
+        		System.out.println("Win");
+        	}
+        	else
+        	{
+        		System.out.println("Lose");
+        	}
+        	T--;
+        }
+        
+    }
+
+	private static long lcm(long x, long a, long b) {
+		
+		return (a*b)/(x);
+	}
+
+	public static long gcd(long a, long b) {
+		if(a==0||b==0) return a!=0?a:b;
+		if(a==b) return a;		
+		long max = a>b?a:b;
+		long min = a<b?a:b;
+		while(max%min!=0)
+		{
+			long temp = max;
+			max = min;
+			min = temp%min;
+		}
+		return min;
+	}
+}
+
+
+*/
