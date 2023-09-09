@@ -1,0 +1,158 @@
+Given an array A of N positive integers. Print 
+true
+ if and only if you can split the entire array into groups of integers, where:
+Each group has exactly X number of integers where X≥2
+All the integers in each group are equal
+Example: 
+[1,1,1,2,2,2]can be divided into 2 groups of 3 integers each [1,1,1]and [2,2,2]
+
+Input Format
+The first line of input contains a positive integer T denoting number of testcases.
+The first line of each testcase contains a single integer N.
+The second line of each testcase contains N space-separated integers A[1],A[2],...A[N]
+ array numbers.
+Constraints
+1≤T≤10
+1≤N≤10^4
+0 ≤ A[i] <10^4
+Output Format
+Print 
+true
+if its possible to split the array according to given problem statement otherwise 
+false.
+Sample Input 1
+[1,2,3,4,4,3,2,1]
+Sample Output 1
+true
+Sample Input 2
+[1,1,1,2,2,2,3,3]
+Sample Output 2
+false
+Explanation
+Sample Input 1: Possible partition 
+[1,1],[2,2],[3,3],[4,4]
+Sample Input 2: No possible partition
+Example
+Input
+2
+8
+1 2 3 4 4 3 2 1
+8
+1 1 1 2 2 2 3 3
+Output
+true
+false
+*/
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+  
+	private static Scanner scanner = new Scanner(System.in);
+    public static void main (String[] args) throws java.lang.Exception
+    {
+        int t = scanner.nextInt();
+        while (t>=1) {
+			int n = scanner.nextInt();
+			long arr[] = new long[n];
+			arr = init(arr);
+			boolean isEqualPartitionExist = checkEqualPartition(arr);
+			System.out.println(isEqualPartitionExist);
+			t--;
+		}
+    }
+	private static boolean checkEqualPartition(long[] arr){ 
+	Map<Long, Long> frequency = new HashMap<Long, Long>(arr.length);
+		int c = 0;
+		Long val1 = -99L,val2 = -99L,intermediateGCD = -99L;
+/*
+1) to prepare a hasMap which will contain frequency of each element 
+2) take gcd for all the frequency
+3) 
+4) eg if fre=>[2,8,4,4] and gcd is 2 do a modulos on each frequency if result is 0 constinue else return false .
+*/
+		for(int i = 0;i<arr.length;i++)
+		{
+			if(frequency.containsKey(arr[i]))
+			{
+				Long prevFrequencyOfCurrentKey = frequency.get(arr[i]);
+				frequency.put(arr[i], prevFrequencyOfCurrentKey+1L);
+			}
+			else
+			{
+				frequency.put(arr[i], 1L);
+			}
+			
+		}
+		if(frequency.size()==1)
+		{
+			return false;
+		}
+		for(Long i : frequency.values())
+		{
+			if(c==0)
+			{
+				intermediateGCD = i;
+				c++;
+				continue;
+			}
+			else
+			{
+				intermediateGCD = gcd(intermediateGCD,i);	
+			}
+			
+		}
+		//	System.out.println(intermediateGCD);
+			if(intermediateGCD==1)
+			{
+				for(Long i : frequency.values())
+				{
+					if(i!=1L)
+							return false;
+				}		
+			}
+		boolean flag = true;	
+		for(Long i : frequency.values())
+		{
+				//System.out.println(i+"=="+intermediateGCD);
+			if(i%intermediateGCD==0)
+			{
+					continue;
+			}
+					
+				else 
+				{
+						return false; 
+				}
+						
+		}
+		
+		return flag;
+	}
+	private static long gcd(long val1, long val2) {
+		if(val1==0||val2==0)
+			return val1==0?val2:val1;
+		else if(val1==val2)
+			return val1;
+		long max = val1>val2?val1:val2;
+		long min = val1<val2?val1:val2;
+		while (max%min!=0) {
+			long temp = max;
+			max = min;
+			min = temp%min;
+		}
+		return min;
+	}
+	private static long[] init(long[] arr) {
+		for(int  i =0 ;i<arr.length;i++)
+		{
+			arr[i] = scanner.nextLong();
+		}
+		return arr;
+	}
+}
+
