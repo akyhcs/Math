@@ -1,0 +1,52 @@
+//https://leetcode.com/problems/count-primes/description/
+
+class Solution {
+	private static boolean[] isPrime= new boolean[5*((int)Math.pow(10,6))+1];
+	private static int[] primeCount = new int[isPrime.length];
+static {
+	initPrimeCount();
+}
+	private static void initPrimeCount() {
+		Arrays.fill(isPrime,true);
+		isPrime[0]=isPrime[1]=false;
+		int k = -1;
+		for(int i =2;i*i<isPrime.length;i++)
+		{
+			k = i;
+			if(isPrime[i])
+			{
+				primeCount[i] = primeCount[i-1] + 1;
+				for(int j = i*i;j<isPrime.length;j=j+i)
+				{
+					isPrime[j] = false;
+				}
+			}
+			else
+			{
+				primeCount[i] = primeCount[i-1];
+			}
+		}
+		for(int i = k+1;i<primeCount.length;i++)
+		{
+			if(isPrime[i])
+			{
+				primeCount[i] = primeCount[i-1] + 1;
+			}
+			else
+			{
+				primeCount[i] = primeCount[i-1];
+			}
+		}
+		
+	}
+
+    public int countPrimes(int n) {
+			if(n>0)
+			{
+				n=n-1;
+			}
+       	return primeCount[n];
+    }
+}
+
+ 
