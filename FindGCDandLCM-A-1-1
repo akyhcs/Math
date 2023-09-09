@@ -1,0 +1,36 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+   {
+				
+        Scanner scanner = new Scanner(System.in);
+        long a = scanner.nextLong(),
+             b = scanner.nextLong(),
+             X = gcd(a,b),
+             Y = lcm(X,a,b);
+        System.out.println(X+" "+Y);
+    }
+
+	private static long lcm(long x, long a, long b) {
+		
+		return (a*b)/(x);
+	}
+
+	public static long gcd(long a, long b) {
+		long max = a>b?a:b;
+		long min = a<b?a:b;
+		while(max%min!=0)
+		{
+			long temp = max;
+			max = min;
+			min = temp%min;
+		}
+		return min;
+	}
+}
