@@ -73,7 +73,8 @@ public class Main
 1) to prepare a hasMap which will contain frequency of each element 
 2) take gcd for all the frequency
 3) if gcd is 1 then each partition cannot be length >=2
-4) eg if fre=>[2,8,4,4] and gcd is 2 do a modulos on each frequency if result is 0 continue else return false .
+4) eg if fre=>[2,8,4,4] and gcd is 2 do a modulos on each frequency if result is 0 continue else return false . 
+5) still partition does't  look equal but 4 could be partition in 2,2 similarly 8=>4,4 and each 4=>2,2 
 */
 		for(int i = 0;i<arr.length;i++)
 		{
