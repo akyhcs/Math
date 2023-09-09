@@ -72,8 +72,8 @@ public class Main
 /*
 1) to prepare a hasMap which will contain frequency of each element 
 2) take gcd for all the frequency
-3) 
-4) eg if fre=>[2,8,4,4] and gcd is 2 do a modulos on each frequency if result is 0 constinue else return false .
+3) if gcd is 1 then each partition cannot be length >=2
+4) eg if fre=>[2,8,4,4] and gcd is 2 do a modulos on each frequency if result is 0 continue else return false .
 */
 		for(int i = 0;i<arr.length;i++)
 		{
@@ -109,11 +109,7 @@ public class Main
 		//	System.out.println(intermediateGCD);
 			if(intermediateGCD==1)
 			{
-				for(Long i : frequency.values())
-				{
-					if(i!=1L)
-							return false;
-				}		
+				return false;		
 			}
 		boolean flag = true;	
 		for(Long i : frequency.values())
