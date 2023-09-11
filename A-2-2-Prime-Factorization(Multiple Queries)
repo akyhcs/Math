@@ -1,0 +1,104 @@
+/*
+Given a number 
+N, print all its unique prime factors and their exponents in N.
+Input Format
+The first line of the input contains a single integer 
+T denoting the number of test cases.
+
+The description of T test cases follows.
+
+Each test case contains a single integer N in a separate line.
+
+Output Format
+For each test case, for each prime factor of the number N in that test case, output two space separated integers: the prime factor and its power in N
+.
+
+Prime factors should be printed in increasing order.
+
+Constraints
+1≤T≤10^5
+2≤N≤10^6
+Example
+Input
+2
+100
+35
+Output
+2 2
+5 2
+5 1
+7 1
+*/
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+	private final static Scanner SCANNER = new Scanner(System.in);
+	private static boolean[] isPrime= new boolean[((int)Math.pow(10,6))+1];
+	private static long[] spf = new long[((int)Math.pow(10,6))+1];
+		private static Comparator<Long> comparator = (L1,L2)->{return L1.compareTo(L2);};
+    private static SortedMap<Long, Long> map = new TreeMap<Long,Long>(comparator); 
+		
+	public static void main (String[] args) throws java.lang.Exception
+    {
+    	initilizeSPF();
+    	long t = SCANNER.nextLong();
+    	while(t>=1)
+    	{
+    		long input = SCANNER.nextLong();
+    		collectPrimeFactor(input);
+    		printMap();
+    		t = t-1;
+    	}
+    	
+    }
+	private static void printMap()
+	{
+		for(Long l : map.keySet())
+		{
+			System.out.println(l+" "+map.get(l));
+		}
+		map.clear();
+	}
+	private static void collectPrimeFactor(long input) {
+		while (input>1) 
+		{
+			if(map.containsKey(spf[(int)input]))
+			{
+				map.put(spf[(int)input], 1L+map.get(spf[(int)input]));
+			}
+			else
+			{
+				map.put(spf[(int)input], 1L);
+			}
+			input = input/spf[(int)input];
+		}
+	}
+	private static void initilizeSPF() {
+		Arrays.fill(isPrime, true);
+		for(int  i =1;i<spf.length;i++)
+		{
+			spf[i] = i;
+		}
+		isPrime[0]=isPrime[1]=false;
+		for(int i =2;i*i<isPrime.length;i++)
+		{
+			if(isPrime[i])
+			{
+				
+				for(int j = i;j*i<isPrime.length;j++)
+				{
+					if(spf[i*j]==i*j) {
+						spf[i*j] = i;
+						isPrime[i*j] = false;
+					}						
+				}////
+			}/////////////////
+		}////////////////////////////
+		
+	}
+}
