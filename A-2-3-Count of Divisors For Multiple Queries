@@ -1,0 +1,190 @@
+/*
+You are given an array A of N integers.
+
+Count the number of unique prime factors of each element in it.
+
+Input Format
+The first line of the input contains a single integer 
+T, denoting the number of test cases.
+The description of T test cases follows.
+
+The first line of each test case contains a single integer 
+N
+.
+
+The second line of each test case contains 
+N
+ space-separated integers 
+A[0],A[1],...,A[N−1].
+
+Output Format
+
+For each test case output a line containing N space separated integers denoting the number of prime factors of each of the array element.
+
+Constraints
+1≤T≤10
+
+1≤N≤10^5
+1≤Ai≤10^6
+
+Input
+1
+3
+10 12 14
+Output
+2 2 2
+*/
+
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+
+{
+
+private final static BufferedReader reader = new BufferedReader(
+
+            new InputStreamReader(System.in));
+
+private static boolean[] isPrime= new boolean[((int)Math.pow(10,6))+1];
+
+private static long[] spf = new long[((int)Math.pow(10,6))+1];
+
+private static Comparator<Long> comparator = (L1,L2)->{return L1.compareTo(L2);};
+
+    private static SortedMap<Long, Long> map = new TreeMap<Long,Long>(comparator); 
+
+public static void main (String[] args) throws java.lang.Exception
+
+    {
+
+     initilizeSPF();
+
+     long t = Long.parseLong(reader.readLine());
+
+     while(t>=1)
+
+     {
+
+      long totalInput = Long.parseLong(reader.readLine());
+
+long input[] = new long[(int)totalInput];
+
+int i= 0;
+
+   for(String num : reader.readLine().split("\\s+")) {
+
+                Long number = Long.parseLong(num);
+
+collectPrimeFactor(number);
+
+input[i] = countDivisor();
+
+i += 1;
+
+}
+
+for(i = 0 ;i<input.length;i++)
+
+{
+
+System.out.print(input[i]+" ");
+
+}
+
+System.out.println();
+
+     t = t-1;
+
+     }
+
+    
+
+    }
+
+private static long countDivisor()
+
+{
+
+long l = map.size();
+
+map.clear();
+
+return l;
+
+}
+
+private static void collectPrimeFactor(long input) {
+
+while (input>1) 
+
+{
+
+if(map.containsKey(spf[(int)input]))
+
+{
+
+map.put(spf[(int)input], 1L+map.get(spf[(int)input]));
+
+}
+
+else
+
+{
+
+map.put(spf[(int)input], 1L);
+
+}
+
+input = input/spf[(int)input];
+
+}
+
+}
+
+private static void initilizeSPF() {
+
+Arrays.fill(isPrime, true);
+
+for(int  i =1;i<spf.length;i++)
+
+{
+
+spf[i] = i;
+
+}
+
+isPrime[0]=isPrime[1]=false;
+
+for(int i =2;i*i<isPrime.length;i++)
+
+{
+
+if(isPrime[i])
+
+{
+
+for(int j = i;j*i<isPrime.length;j++)
+
+{
+
+if(spf[i*j]==i*j) {
+
+spf[i*j] = i;
+
+isPrime[i*j] = false;
+
+}
+
+}////
+
+}/////////////////
+
+}////////////////////////////
+
+}
+
+}
