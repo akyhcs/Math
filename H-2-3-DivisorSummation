@@ -1,0 +1,79 @@
+/*
+You are given a natural number N. Output the sum of all its proper divisors.
+
+A Proper Divisor of a natural number is the divisor that is strictly less than that number.
+
+Input Format
+The first line of the input contains a single integer 
+T, denoting the number of test cases.
+
+The description of 
+T test cases follows.
+
+Each test case contains a single integer N.
+
+Output Format
+For each test case, output the sum of all proper divisors of N on a seperate line.
+
+Constraints
+1≤T≤10^2
+1≤N≤10^9
+
+Example
+Input
+3
+2
+10
+20
+Output
+1
+8
+22
+*/
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+class Main
+{
+
+    private static Scanner scanner = new Scanner(System.in); 
+    public static void main(String[] args) {
+        
+        int totalTestCases = scanner.nextInt();
+        while(totalTestCases >= 1)
+        {
+            long input = scanner.nextLong(); 
+            
+                long sum = 1;
+                for(long i = 2;i*i<=input;i++)
+                {
+                    if(input%i==0)
+                    {
+                        if(i==(input/i))
+                        {
+                            sum = sum + i;
+                        }
+                        else
+                        {
+                            sum = sum + i + (input/i);
+                        }
+                    }
+                }
+								if(input==1L)
+								{
+										System.out.println(0);
+								}
+								else
+								{
+										System.out.println(sum);
+								}
+            		totalTestCases = totalTestCases - 1;
+        }
+    }
+
+
+    
+}
