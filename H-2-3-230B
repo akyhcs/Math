@@ -1,0 +1,60 @@
+//https://codeforces.com/problemset/problem/230/B
+
+//package com.prac.math;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+public class TPprimes {
+	private static final int MAX_ARR_SIZE = (int)(Math.pow(10, 6)+1);
+	private static boolean isPrime[] = new boolean[MAX_ARR_SIZE];
+	static {
+		initPrime();
+	}
+	public static void main(String[] args) throws IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int arrSize = Integer.parseInt(bufferedReader.readLine());
+		for(String str : bufferedReader.readLine().trim().split(" "))
+		{
+			double n = Double.parseDouble(str);
+			int squareRoot = (int) Math.sqrt(n);
+			if(isPrime[squareRoot])
+			{
+				if(((double)squareRoot*squareRoot) == n)
+				{
+					System.out.println("YES");
+				}
+				else
+				{
+					System.out.println("NO");
+				}
+			}
+			else
+			{
+				System.out.println("NO");
+			}
+		}
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static void initPrime() {
+		Arrays.fill(isPrime, true);
+		isPrime[0]=isPrime[1]=false;
+		for(int i =2;i*i<MAX_ARR_SIZE;i++)
+		{
+			if(isPrime[i])
+			{
+				for(int j = i*i;j<MAX_ARR_SIZE;j+=i)
+				{
+					isPrime[j] = false;
+				}
+			}
+		}
+	}
+
+
+}
