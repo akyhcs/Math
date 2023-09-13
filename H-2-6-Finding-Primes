@@ -37,3 +37,64 @@ Output
 1
 2
 */
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+		   private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private static final int SIZE = (int)(Math.pow(10,6) + 1);
+    private static boolean isPrime[] = new boolean[SIZE];
+    private static int sieve[] = new int[SIZE];
+    private static int primePrefixCount[] = new int[SIZE];
+    public static void main(String[] args)  throws java.lang.Exception
+    {
+        initPrimeSieve();
+       int totalTest = Integer.parseInt(bufferedReader.readLine());
+       while (totalTest>0) 
+       {
+           int testCaseInput = Integer.parseInt(bufferedReader.readLine());
+           System.out.println(primePrefixCount[testCaseInput]-primePrefixCount[testCaseInput/2]);
+           totalTest = totalTest - 1;
+       }
+        
+    }
+
+    private static void initPrimeSieve()
+    {
+        isPrime[0]=isPrime[1]=false;
+        for(int i = 2;i<sieve.length;i++)
+        {
+            sieve[i] = i;
+            isPrime[i] = true;
+        }
+        for(int  i =2;i*i<isPrime.length;i++)
+        {
+            if(isPrime[i])
+            {
+                for(int j = i;j*i<isPrime.length;j++)
+                {
+                    isPrime[j*i] = false;
+                    sieve[i*j] = i;
+                }
+            }
+        }
+        for (int i = 2; i < isPrime.length; i++)
+        {
+            if(isPrime[i])
+            {
+                primePrefixCount[i] = 1 + primePrefixCount[i-1];
+            }
+            else
+            {
+                primePrefixCount[i] = primePrefixCount[i-1];
+            }
+            //System.out.println(i+"==="+primePrefixCount[i]);
+        }
+    }
+    
+}
+    
