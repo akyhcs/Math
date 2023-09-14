@@ -1,1 +1,137 @@
 //https://codeforces.com/problemset/problem/154/B
+//package com.prac.math;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+public class Colliders {
+	private static boolean isPrime[] = new boolean[(int) Math.pow(10, 6) + 1];
+	private static int spf[] = new int[(int) Math.pow(10, 6) + 1];
+	private static Map<Integer, String> colliderStatus = null;// new TreeMap<>() ;
+	static {
+		intiPrime();
+	}
+
+	public static void main(String[] args) throws IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLineInput[] = bufferedReader.readLine().trim().split(" ");
+		int numberOfCollider = Integer.parseInt(firstLineInput[0]);
+		colliderStatus = new HashMap<>(numberOfCollider);
+		int totalInput = Integer.parseInt(firstLineInput[1]);
+		while (totalInput-- > 0) {
+			String currentRequest[] = bufferedReader.readLine().trim().split(" ");
+			processCurrentRequest(currentRequest);
+			currentRequest=null;
+		}
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static void processCurrentRequest(String[] currentRequest) {
+		String key = currentRequest[0];
+		int targetCollider = Integer.parseInt(currentRequest[1]);
+		switch (key) {
+		case "+":
+			if (colliderStatus.containsKey(targetCollider))// gcd is not equal to 1
+			{
+				System.out.println(colliderStatus.get(targetCollider));
+			}
+			
+			 else {
+				boolean canColliderBeSwitchedOn = true;
+				
+				Set<Integer> uniqueDivisorOfTargetCollider = null;
+				if(!isPrime[targetCollider])//if not prime then only collect divisor
+					uniqueDivisorOfTargetCollider=getDivisorforTargetCollider(targetCollider);
+				else
+					{
+						uniqueDivisorOfTargetCollider= new HashSet<>(1);
+						uniqueDivisorOfTargetCollider.add(targetCollider);
+					}
+				for(Integer currentDivisorOfTargetCollider : uniqueDivisorOfTargetCollider)
+				{
+					if (colliderStatus.containsKey(currentDivisorOfTargetCollider))// gcd is not equal to 1 conflicting collider
+					{
+						canColliderBeSwitchedOn = false;
+						//System.out.println(colliderStatus.get(currentDivisorOfTargetCollider));
+						if(colliderStatus.get(currentDivisorOfTargetCollider).compareTo("Already on")==0)
+						{
+							System.out.println("Conflict with "+currentDivisorOfTargetCollider);
+						}
+						else
+						{
+							System.out.println(colliderStatus.get(currentDivisorOfTargetCollider));
+						}
+						break;
+					}
+				}
+				if (canColliderBeSwitchedOn) {
+					System.out.println("Success");
+					for(Integer currentDivisorOfTargetCollider : uniqueDivisorOfTargetCollider)
+					{
+						colliderStatus.put(currentDivisorOfTargetCollider,"Conflict with "+targetCollider);
+					}
+					colliderStatus.put(targetCollider,"Already on");
+				}
+			}
+			break;
+		case "-":
+			if (colliderStatus.containsKey(targetCollider) && colliderStatus.get(targetCollider).compareTo("Already on")==0) {
+				
+					colliderStatus.remove(targetCollider);
+				///remove conflicting colliders spf
+//				else {
+					
+					Set<Integer> uniqueDivisorOfTargetCollider = getDivisorforTargetCollider(targetCollider);
+					for(Integer currentDivisorOfTargetCollider : uniqueDivisorOfTargetCollider)
+					{
+						colliderStatus.remove(currentDivisorOfTargetCollider);
+					}
+//				}		
+				System.out.println("Success");
+			} else {
+				System.out.println("Already off");
+			}
+			break;
+		default:
+			break;
+		}// switch
+			// System.out.println(runningCollider);
+	}////
+
+	private static Set<Integer> getDivisorforTargetCollider(int targetCollider) {
+		Set<Integer> allDivisor = new HashSet<>();
+
+		while (targetCollider > 1) {
+			allDivisor.add(spf[targetCollider]);
+			targetCollider = targetCollider / spf[targetCollider];
+		}
+		return allDivisor;
+	}
+
+
+	private static void intiPrime() {
+		Arrays.fill(isPrime, true);
+		isPrime[0] = isPrime[1] = false;
+		for (int i = 0; i < spf.length; i++) {
+			spf[i] = i;
+		}
+		for (int i = 2; i * i < isPrime.length; i++) {
+			if (isPrime[i]) {
+				for (int j = i * i; j < isPrime.length; j += i) {
+					isPrime[j] = false;
+					spf[j] = i;
+				} // j
+			} // i
+		} // i
+	}
+
+}
