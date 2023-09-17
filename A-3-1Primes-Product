@@ -1,0 +1,123 @@
+/*
+Given two numbers 
+L and R (inclusive) find the product of primes within this range. Print the product modulo 
+10^9+7. If there are no primes in that range you must print 1.
+
+Input Format
+
+The first line contains a positive integer T, denoting number of testcases .The first line of each testcase contains two space - separated integers L and R, denoting the range 
+Constraints
+
+1≤T≤10
+1≤L≤R≤10^9
+0≤R−L≤10^6
+Output Format
+
+Print the product of all primes in the range 
+[L,R] modulo 10^9+7
+Sample Input
+
+2
+1 10
+2 20
+
+Sample Output
+
+210
+9699690
+
+Sample Explanation
+
+Case 1: 
+2∗3∗5∗7=210
+Case 2: 
+2∗3∗5∗7∗11∗13∗17∗19=9699690
+Example
+Input
+2  
+1 10  
+2 20
+Output
+210
+9699690
+*/
+
+
+
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+  private static final BufferedReader BUFFERED_READER = new BufferedReader(new InputStreamReader(System.in));
+    private static boolean isPrime[] = new boolean[(int)(Math.pow(10, 6)+1)];
+    private static List<Integer> primeIntegers = new ArrayList<Integer>();
+    private static final int MOD = (int)(Math.pow(10, 9)+7); 
+    public static void main(String[] args) throws java.lang.Exception{
+        initPrime();
+        int totalTestCaseInput = Integer.parseInt(BUFFERED_READER.readLine().trim());
+        while (totalTestCaseInput>0) 
+        {
+						String input[] = BUFFERED_READER.readLine().trim().split(" ");
+						//System.out.println(input);
+            long leftRange = Long.parseLong(input[0]);
+            long rightRange = Long.parseLong(input[1]);
+            long productOfRange = findPrimeProduct(leftRange,rightRange);
+            System.out.println(productOfRange); 
+            totalTestCaseInput--;
+        }
+
+    }
+
+    private static void initPrime() {
+        Arrays.fill(isPrime, true);
+        isPrime[0]=isPrime[1]=false;
+        int k = 1;
+        for (int i = 2; i*i < isPrime.length; i++) {
+                
+            if(isPrime[i])
+            {
+                k = i;
+                primeIntegers.add(i);
+                for (int j = i; j*i < isPrime.length; j++) {
+                    isPrime[i*j] = false;
+                }
+            }
+        }
+        for (int i = k+1; i < isPrime.length; i++) 
+        {
+            if(isPrime[i])
+            {
+                primeIntegers.add(i);
+            }    
+        }
+    }
+
+    private static long findPrimeProduct(long leftRange, long rightRange) 
+    {
+        
+        int size = (int)(rightRange-leftRange+1);
+        boolean range[] = new boolean[size];
+        long product = 1;
+        Arrays.fill(range,true);
+        for (Integer prime : primeIntegers) 
+        {
+          int k = (int)(Math.ceil((1.0*leftRange)/prime));
+            for(int j = Math.max(k, 2);prime*j<=rightRange;j++)
+            {
+                range[(int)(prime*j-leftRange)] = false;
+            }
+        }
+        for (int i = 0; i < range.length; i++) {
+            if(range[i])
+            {
+                
+                product = ((product%MOD) * ((i+leftRange)%MOD))%MOD;
+            }
+        }
+        return product;
+    }
+}
