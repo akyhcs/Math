@@ -1,0 +1,78 @@
+You are given an array A of N numbers, output the count of pairs in the array whose sum is divisible by 4.
+
+Input Format
+The first line of the input contains a single integer T denoting the number of test cases.
+
+The description of T test cases follows.
+
+The first line of each test case contains a single integer N.
+
+The second line contains N space-separated integers 
+A[0],A[1],...,A[N−1] representing the array numbers.
+
+Output Format
+For each test case, output the count of pairs in the array whose sum is divisible by 4 on a separate line.
+
+Constraints
+1≤T≤10
+
+1≤N≤10^5
+
+1≤Ai≤10^6
+ 
+
+Example
+Input
+1
+5
+2 2 1 7 5
+Output
+3
+*/
+
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+		private static final BufferedReader BUFFERED_READER = 
+				new BufferedReader(new InputStreamReader(System.in));
+    public static void main (String[] args) throws java.lang.Exception
+    {
+       
+				int totalTestCaseInput = Integer.parseInt(BUFFERED_READER.readLine().trim());
+				while(totalTestCaseInput>=1)
+				{
+						int size = Integer.parseInt(BUFFERED_READER.readLine().trim());
+						String input[] = BUFFERED_READER.readLine().trim().split(" ");
+						int nums[] = new int[input.length];
+						for(int i = 0 ;i<input.length;i++)
+						{
+								nums[i] = Integer.parseInt(input[i]);
+						}
+						int sum = getSum(nums);
+						System.out.println(sum);
+						totalTestCaseInput = totalTestCaseInput - 1;
+				}
+    }
+		public static int getSum(int nums[])
+		{
+				 int modCountArr[] = new int[4];
+				int ans = 0;
+				for(int  i = 0 ;i<nums.length;i++)
+				{
+						modCountArr[nums[i]%4]++;
+				}
+				for(int i = 1;i<modCountArr.length/2;i++)
+				{
+						ans = ans + modCountArr[i] * modCountArr[4-i];
+				}
+				ans = ans + (modCountArr[0]*(modCountArr[0]-1))/2;
+				int k = modCountArr.length/2;
+				ans = ans + (modCountArr[k]*(modCountArr[k]-1))/2;
+				return ans;
+		}
+}
