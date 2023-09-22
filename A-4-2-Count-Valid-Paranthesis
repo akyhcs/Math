@@ -1,0 +1,79 @@
+/*Count Valid Paranthesis
+
+You are given a non-negative number N, find the number of valid parentheses expressions of that length.
+If the answer exists, print the answer modulo 10^9 + 7, otherwise print -1.
+
+Input Format
+
+The first line of the input contains a single integer T denoting the number of test cases.
+Each test case contains a single integer N.
+Constraints
+
+1 <= T <= 10^3
+1 <= N <= 10^3
+Output Format
+
+For each test case, output the number number of valid parentheses expressions of length N, on a seperate line.
+Example
+Input
+2
+4
+5
+Output
+2
+-1
+*/
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+	private static long catalina[] = new long[1001];
+	private static final long MOD = 1000000000+7l;
+	static {
+		initCatalina();
+		//printCatalina();
+	}
+	public static void main(String[] args) throws IOException {
+		InputStreamReader inputStreamReader =new InputStreamReader(System.in);
+		BufferedReader bufferedReader= new BufferedReader(inputStreamReader);
+		int testTestCase = Integer.parseInt(bufferedReader.readLine().trim());
+		while (testTestCase-- > 0) {
+			int n = Integer.parseInt(bufferedReader.readLine().trim());
+			if((n&1)==0)
+			{
+				System.out.println(catalina[n/2]);
+			}
+			else
+			{
+				System.out.println(-1);
+			}
+		}
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+	private static void printCatalina() {
+		for(int i =0 ;i<catalina.length;i++)
+		{
+			System.out.print(i+" => "+catalina[i]+" ");
+		}
+	}
+	private static void initCatalina() {
+		catalina[0]=catalina[1]=1;
+		for(int i =2 ;i<catalina.length;i++)
+		{
+			catalina[i] = getCatalinaAtithPosition(i);
+		}
+		
+	}
+	private static long getCatalinaAtithPosition(int n) {
+		long ans =0l;
+		for (int i = 0; i < n; i++) {
+			ans = ((ans%MOD) + (( (catalina[i]%MOD)*(catalina[n-i-1]%MOD) )%MOD))%MOD;  
+		}
+		return ans;
+	}
+}
