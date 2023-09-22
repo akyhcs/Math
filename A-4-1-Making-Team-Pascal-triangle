@@ -27,13 +27,13 @@ Input
 Output
 10
 */
-package com.prac.math;
+//package com.prac.math;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class MakingTeams {
+public class Main {
 	private static long pascal[][] = new long[61][61];
 	static {
 		initPascal();
@@ -51,9 +51,9 @@ public class MakingTeams {
 			 int totalGirl = Integer.parseInt(secondLineInput[1]);//total gitrls
 			 int x = Integer.parseInt(secondLineInput[2]);//total selection of boys and girls
 			 long ans = 0;
-			    for (int i=minBoys;i<x;i++) {
-	                	ans = ans + getNCR(totalBoys,i)*getNCR(totalGirl, x-i);
-	            	}
+			    for (int i=minBoys;i<x;i++) {//minboys should not exceed otherwise girls will go -ve
+	                ans = ans + getNCR(totalBoys,i)*getNCR(totalGirl, x-i);
+	            }
 			 System.out.println(ans);
 			 
 		}	 
