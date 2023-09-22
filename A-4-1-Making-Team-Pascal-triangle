@@ -37,23 +37,32 @@ public class MakingTeams {
 	private static long pascal[][] = new long[61][61];
 	static {
 		initPascal();
-		printPascal();
+		//printPascal();
 	}
 	public static void main(String[] args) throws IOException {
 		 InputStreamReader inputStreamReader  = new InputStreamReader(System.in);
 		 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		 int minBoys = 4;//provided in question
+		 int minGirl = 1;//provided in question
 		 int totalTest = Integer.parseInt(bufferedReader.readLine().trim());
-		 String secondLineInput[] = bufferedReader.readLine().trim().split(" ");
-		 int n = Integer.parseInt(secondLineInput[0]);//total boys
-		 int m = Integer.parseInt(secondLineInput[1]);//total gitrls
-		 int x = Integer.parseInt(secondLineInput[2]);//total selection of boys and girls
 		 while (totalTest-- >= 1) {
-			System.out.println(pascal[n+m][x]);
-		}
-		 
-		 
+			 String secondLineInput[] = bufferedReader.readLine().trim().split(" ");
+			 int totalBoys = Integer.parseInt(secondLineInput[0]);//total boys
+			 int totalGirl = Integer.parseInt(secondLineInput[1]);//total gitrls
+			 int x = Integer.parseInt(secondLineInput[2]);//total selection of boys and girls
+			 long ans = 0;
+			    for (int i=minBoys;i<x;i++) {
+	                	ans = ans + getNCR(totalBoys,i)*getNCR(totalGirl, x-i);
+	            	}
+			 System.out.println(ans);
+			 
+		}	 
 		 bufferedReader.close();
 		 inputStreamReader.close();
+	}
+	private static long getNCR(int totalBoys, int minBoys) {
+		
+		return pascal[totalBoys][minBoys];
 	}
 	private static void printPascal() {
 		for(int i =0 ;i<pascal.length;i++)
@@ -84,4 +93,3 @@ public class MakingTeams {
 	}
 
 }
-
