@@ -1,4 +1,6 @@
 /*
+https://www.hackerrank.com/contests/first-assessment/challenges/the-hardest-problem-ever#:~:text=A%20subsequence%20is%20a%20sequence,C%2CE%2CF%7D.
+
 A subsequence is a sequence that can be derived from another sequence by deleting some elements without changing the order of the 
 remaining elements. For example, the sequence 
 [A,B,D] is a subsequence of [A,B,C,D,E,F] obtained after removal of elements [C,E,F]
