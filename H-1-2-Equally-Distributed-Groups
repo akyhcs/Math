@@ -1,3 +1,4 @@
+/*
 Given an array A of N positive integers. Print 
 true
  if and only if you can split the entire array into groups of integers, where:
