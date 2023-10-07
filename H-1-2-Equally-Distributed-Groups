@@ -113,7 +113,8 @@ public class Main
 			{
 				return false;		
 			}
-		boolean flag = true;	
+			return false;
+		/*boolean flag = true;	
 		for(Long i : frequency.values())
 		{
 				//System.out.println(i+"=="+intermediateGCD);
@@ -129,7 +130,7 @@ public class Main
 						
 		}
 		
-		return flag;
+		return flag;*/
 	}
 	private static long gcd(long val1, long val2) {
 		if(val1==0||val2==0)
