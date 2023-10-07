@@ -30,7 +30,7 @@ public class LCMChallenge {
 		{
 			//no common factor to maximize lcm
 			//n,n-1,n-2
-			if(gcd(n,n-3)==1)//n=14,n-2=12 then gcd cannot be one   
+			if(gcd(n,n-3)==1)//n=30,n-3=27 then gcd cannot be one   
 			{
 				return lcm(lcm(n,n-1),n-3);
 			}
