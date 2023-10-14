@@ -1,0 +1,80 @@
+/*
+For each test case, output the number of permutations of given type.
+Sample Input
+
+1
+5
+
+Sample Output
+
+12
+
+Explanation:
+
+For example 
+[1,2,5,4,3] is a valid permutation, but 
+[5,2,3,4,1] is not because the prime number 5 is at index 1
+Example
+Input
+1
+5
+Output
+12
+*/
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+private static final BufferedReader BUFFERED_READER =
+                new BufferedReader(new InputStreamReader(System.in));
+    private static final long MOD= (long)(Math.pow(10,9)+7);
+    private static boolean isPrime[] = new boolean[1000001];
+    public static void main (String[] args) throws java.lang.Exception
+    {
+        iniPrime();
+        int totalTestCaseInput = Integer.parseInt(BUFFERED_READER.readLine());
+        while (totalTestCaseInput>0) 
+        {
+            int input = Integer.parseInt(BUFFERED_READER.readLine().trim());
+						
+            int primeFrequency = 0;
+            int compositeFrequency = 0;
+            for (int i = 2; i <= input; i++) {
+                if(isPrime[i])
+                {
+                    primeFrequency++;
+                }
+            } 
+            compositeFrequency = input - primeFrequency;
+            long primeFrequencyFactorial = factorial(primeFrequency);
+            long compositeFrequencyFactorial = factorial(compositeFrequency);
+            long totalFrequencyFactorial = ((primeFrequencyFactorial%MOD)*(compositeFrequencyFactorial%MOD))%MOD;
+            System.out.println(totalFrequencyFactorial);
+            totalTestCaseInput--;
+        }
+    }
+
+    private static long factorial(int frequency) {
+        if(frequency==0)
+            return 1;
+        return (frequency*factorial(frequency-1))%MOD;
+    }
+
+    private static void iniPrime() {
+        Arrays.fill(isPrime, true);
+        isPrime[0]=isPrime[1] = false;
+        for (int i = 2; i*i < isPrime.length; i++) {
+            if(isPrime[i])
+            {
+                for (int j = i; j*i < isPrime.length; j++)
+                {
+                    isPrime[i*j] = false;    
+                }
+            }
+        }
+    }
+}
