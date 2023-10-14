@@ -1,0 +1,124 @@
+//package com.prac.math;
+///////////////////////////////////////////////////////////////////////////failing with heap memory//////////////////////////////////////////////////////////////////////////////////////////
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class ColorfulField {
+
+	public static void main(String[] args) throws IOException {
+		Input input = new Input(); 
+		String firstLineInput[] = null;
+		String fruit[] = {"Carrots","Kiwis","Grapes"};
+		try(InputStreamReader inputStreamReader = new InputStreamReader(System.in))
+		{
+			try(BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+				firstLineInput = bufferedReader.readLine().trim().split(" ");
+				input.setRow(Integer.parseInt(firstLineInput[0]));
+				input.setCol(Integer.parseInt(firstLineInput[1]));
+				input.setTotalWasteLand(Integer.parseInt(firstLineInput[2]));
+				input.setTotalTestCase(Integer.parseInt(firstLineInput[3]));
+				input.setMatrix(new int[input.getRow()][input.getCol()]);
+				
+				//init waste land
+				int wasteLand = input.getTotalWasteLand(); 
+				while(wasteLand-- > 0)
+				{
+					String currRoCloforWasteLan[] = bufferedReader.readLine().trim().split(" ");
+					input.setDataInMatrix(Integer.parseInt(currRoCloforWasteLan[0])-1,
+							Integer.parseInt(currRoCloforWasteLan[1])-1, -9);
+				}
+				processMatrix(input);
+				int totalInput = input.getTotalTestCase();
+				while (totalInput-- > 0) {
+					String currRoClo[] = bufferedReader.readLine().trim().split(" ");
+					int index = input.getDataInMatrix(Integer.parseInt(currRoClo[0])-1,Integer.parseInt(currRoClo[1])-1);
+					if(index==-9)
+					{
+						System.out.println("Waste");
+					}
+					else
+					{
+						System.out.println(fruit[index]);
+					}
+				}
+			}///buffer
+		}//inputstream
+		
+		
+		
+		
+		
+	}
+
+	private static void processMatrix(Input input) {
+		int matrix[][] = input.getMatrix();
+		int k = -1;
+		for(int i = 0 ;i<input.getRow();i++)
+		{
+			for(int j = 0 ;j<input.getCol();j++)
+			{
+				if(matrix[i][j]==-9) continue;
+				else
+				{
+					//putting index of correct fruit from fruit arr doing modulo by 3 because 3 is size of fruit arr .
+					int l = ((++k) % 3);
+					input.setDataInMatrix(i, j,l);
+				}
+			}
+		}
+	}
+
+}
+
+class Input
+{
+	private int row;
+	private int col;
+	private int totalWasteLand;
+	private int totalTestCase;
+	private int matrix[][];
+	public int getRow() {
+		return row;
+	}
+	public void setRow(int row) {
+		this.row = row;
+	}
+	public int getCol() {
+		return col;
+	}
+	public void setCol(int col) {
+		this.col = col;
+	}
+	public int getTotalWasteLand() {
+		return totalWasteLand;
+	}
+	public void setTotalWasteLand(int totalWasteLand) {
+		this.totalWasteLand = totalWasteLand;
+	}
+
+	public int getTotalTestCase() {
+		return totalTestCase;
+	}
+	public void setTotalTestCase(int totalTestCase) {
+		this.totalTestCase = totalTestCase;
+	}
+	public int[][] getMatrix() {
+		return matrix;
+	}
+	public void setMatrix(int[][] matrix) {
+		this.matrix = matrix;
+	}
+	
+	public void setDataInMatrix(int row,int col,int data)
+	{
+		this.matrix[row][col] = data;
+	}
+	public int getDataInMatrix(int row,int col)
+	{
+		return this.matrix[row][col];
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////end//////////////////////////////////////////////////////////////////////////////////////////
+
