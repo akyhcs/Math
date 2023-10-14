@@ -1,0 +1,112 @@
+Given an array of 
+digits which is sorted in 
+non−decreasing order. We can write numbers using each 
+digits[i] as many times as we want. For example, if 
+digits=[1,3,5], we may write numbers such as 13,551, and 1351315.
+
+Print the number of positive integers that can be generated that are less than or equal to a given integer 
+M
+.
+
+Input Format
+
+The first input line contains two integers 
+N and M, the number of digits in the array, and an integer which should be greater than equal to all the numbers generated using array 
+digits.
+The second input line contains 
+N space - separated integers, 
+digits[1],digits[2],......,digits[N]
+.
+Constraints
+
+1 ≤ N ≤ 9
+1 ≤ A[i] ≤ 9
+1 ≤ M ≤ 10^9
+Output Format
+
+Print the single number — the total number of positive integers that can be generated that are less than or equal to a given integer M.
+Sample Input
+
+digits = [1,3,5,7], M=100
+
+Sample Output
+
+20
+
+Explanation
+
+The 
+20 numbers that can be written are: 1,3,5,7,11,13,15,17,31,33,35,37,51,53,55,57,71,73,75,77.
+Example
+Input
+4 100
+1 3 5 7
+Output
+20
+
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+		private static final BufferedReader BUFFERED_READER = new BufferedReader(
+			new InputStreamReader(System.in));
+    public static void main (String[] args) throws java.lang.Exception
+    {
+       String[] input = BUFFERED_READER.readLine().trim().split(" ");
+			 String[] digits = BUFFERED_READER.readLine().trim().split(" ");
+    		int n = atMostNGivenDigitSet(digits, input[1]);
+				System.out.println(n);
+		}
+		 public static int atMostNGivenDigitSet(String[] digits, String n)
+    {
+        Arrays.sort(digits);
+       int base = digits.length; 
+		char[] charArray = n.toCharArray();
+		int charArrayLength = charArray.length;
+		int[] A = new int[charArrayLength];
+		int charArrayCurrentIndex = 0;
+
+		for (char c : charArray) {
+			int c_index = 0; 
+			boolean match = false;
+			for (int i = 0; i < base; ++i) {
+				if (c >= digits[i].charAt(0))
+				{
+					c_index = i + 1;
+					
+				}
+				if (c == digits[i].charAt(0))
+					match = true;
+			}
+
+			A[charArrayCurrentIndex++] = c_index;
+			if (match)
+				continue;
+			
+			
+			if (c_index == 0) { 
+				for (int j = charArrayCurrentIndex - 1; j > 0; --j) {
+					if (A[j] > 0)
+						break;
+					A[j] += base;
+					A[j - 1]--;
+					
+				}
+			}
+
+			while (charArrayCurrentIndex < charArrayLength)
+				A[charArrayCurrentIndex++] = base;
+			break;
+		}
+		
+		int ans = 0;
+		for (int x : A)
+			ans = ans * base + x;
+		return ans;
+	}
+
+}
