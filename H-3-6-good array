@@ -1,0 +1,119 @@
+You are given an array 
+A
+ of 
+N
+ positive numbers, Your task is to select some subset of 
+A
+, multiply each element by an integer and add all these numbers. The array is said to be good if you can obtain a sum of 
+1
+ from the array by any possible subset and multiplicand. Output true if the array is good otherwise output false.
+
+Input Format
+
+The first line of the input contains a single integer 
+T
+ denoting the number of test cases. The description of 
+T
+ test cases follows.
+The first line of each test case contains a single integer 
+N
+.
+The second line contains N space-separated integers 
+A
+[
+0
+]
+,
+A
+[
+1
+]
+,
+.
+.
+.
+,
+A
+[
+N
+−
+1
+]
+ array numbers
+Constraints
+
+1
+ 
+≤
+ 
+T
+ 
+≤
+ 
+10
+1
+ 
+≤
+ 
+N
+ 
+≤
+ 
+10
+5
+1
+ 
+≤
+ 
+A
+[
+i
+]
+ 
+≤
+ 
+10
+9
+Output Format
+
+For each test case, output true if the array is good otherwise output false.
+Sample Input
+
+1
+4
+12 5 7 23
+
+Sample Output
+
+true
+
+Explanation
+
+5
+∗
+(
+5
+)
++
+12
+∗
+(
+−
+2
+)
+=
+25
++
+(
+−
+24
+)
+=
+1
+Example
+Input
+1 
+4 
+12 5 7 23
+Output
+true
