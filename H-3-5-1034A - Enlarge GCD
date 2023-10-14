@@ -1,0 +1,117 @@
+//package com.prac.math;
+///1034A - Enlarge GCD
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Set;
+
+public class EnlargeGCD {
+	private static final int MAX_SIZE = (15*1000000)+1;
+	private static boolean isPrime[] = new boolean[MAX_SIZE];
+	private static int spf[] = new int[MAX_SIZE];
+	static {
+		//System.out.println(getCurrentDate());
+		initPRIMEandSPF();
+		//System.out.println(spf[10013381]);
+		//System.out.println(getCurrentDate());
+	}
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int n = Integer.parseInt(bufferedReader.readLine().trim());
+		int currentInput[] = new int[n];
+		int k = 0;
+		for (String curentStr : bufferedReader.readLine().trim().split(" ")) {
+			currentInput[k++] = Integer.parseInt(curentStr);
+		}
+		int minRemoval = findMinRemoval(currentInput);
+		System.out.println(minRemoval);
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static int findMinRemoval(int[] currentInput) {
+		int gcd = 0;
+		Hashtable<Integer, Integer> hashtable = new Hashtable<>();
+		int primeWithMaxFre = Integer.MIN_VALUE;
+		for (int i = 0; i < currentInput.length; i++) {
+			gcd = calculateGCD(gcd, currentInput[i]);
+		}
+		// remove gcd from number in-order to find another gcd
+		for (int i = 0; i < currentInput.length; i++) {
+			currentInput[i] /= gcd;
+		}
+		// find the prime factorization of each number after removing gcd
+		for (int i = 0; i < currentInput.length; i++) {
+			Set<Integer> set = getUniquePrimeofCurrentNum(currentInput[i]);
+			for (Integer currentPrime : set) {
+				if (hashtable.containsKey(currentPrime)) {
+					hashtable.put(currentPrime, hashtable.get(currentPrime) + 1);
+				} else {
+					hashtable.put(currentPrime, 1);
+				}
+			}
+		}
+		// find a prime with higest frequency
+		for (Integer currentPrimeKey : hashtable.keySet())
+			primeWithMaxFre = getMax(primeWithMaxFre, hashtable.get(currentPrimeKey));
+		return primeWithMaxFre == Integer.MIN_VALUE ? -1 : currentInput.length - primeWithMaxFre;
+	}
+
+	private static int getMax(int a, Integer b) {
+		return a < b ? b : a;
+	}
+
+	private static Set<Integer> getUniquePrimeofCurrentNum(int a) {
+		Set<Integer> set = new HashSet<>();
+		//int spfK = getSPF(a);
+		while (a > 1) {
+			set.add(spf[a]);
+			a /= spf[a];
+		}
+		return set;
+	}
+
+
+
+	private static int calculateGCD(int a, int b) {
+
+		if (a == 0 || b == 0)
+			return a == 0 ? b : a;
+		int c;
+		while ((c = a % b) != 0) {
+			a = b;
+			b = c;
+		}
+		return b;
+	}
+
+	private static void initPRIMEandSPF() {
+		Arrays.fill(isPrime, true);
+		isPrime[0] = isPrime[1] = false;
+		for (int i = 1; i < MAX_SIZE; i++) {
+			spf[i] = i;
+		}
+		for (int i = 2; i * i <= MAX_SIZE; i++) {
+			if (isPrime[i]) {
+				for (int j = i * i; j < MAX_SIZE; j += i) {
+					isPrime[j] = false;
+					spf[j] = i;
+				}
+			}
+		}
+	}
+
+	private static String getCurrentDate() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		return dtf.format(now);
+	}
+}
