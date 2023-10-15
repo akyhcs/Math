@@ -121,4 +121,158 @@ class Input
 }
 
 ///////////////////////////////////////////////////////////////////////////end//////////////////////////////////////////////////////////////////////////////////////////
+package com.prac.math;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Hashtable;
+ 
+ 
+public class ColorfulField {
+ 
+	public static void main(String[] args) throws IOException {
+		
+		String firstLineInput[] = null;
+		String fruit[] = {"Carrots","Kiwis","Grapes"};
+		int prefixSumWasteLand[] = null; 
+		Hashtable<Integer, ArrayList<Integer>> hashtable = new Hashtable<>();
+		try(InputStreamReader inputStreamReader = new InputStreamReader(System.in))
+		{
+			try(BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+				firstLineInput = bufferedReader.readLine().trim().split(" ");
+				int row = Integer.parseInt(firstLineInput[0]);
+				int col = Integer.parseInt(firstLineInput[1]);
+				int totalWasteLand = Integer.parseInt(firstLineInput[2]);
+				int totalTestCase = Integer.parseInt(firstLineInput[3]);
+				prefixSumWasteLand = new int[row+1];
+				
+				//init waste land
+				int wasteLand = totalWasteLand; 
+				while(wasteLand-- > 0)
+				{
+					String currRoCloforWasteLan[] = bufferedReader.readLine().trim().split(" ");
+					int wasteLandRow  = Integer.parseInt(currRoCloforWasteLan[0]) ;
+					int wasteLandColumn  = Integer.parseInt(currRoCloforWasteLan[1]);
+					ArrayList<Integer> list = null;
+					if(hashtable.containsKey(wasteLandRow))
+					{
+						list = hashtable.get(wasteLandRow);
+						
+					}
+					else
+					{
+						 list = new ArrayList<>();
+							
+					}
+
+					list.add(wasteLandColumn);
+					hashtable.put(wasteLandRow, list);
+				}
+			//	System.out.println(hashtable);
+				preparePrefixSum(hashtable,prefixSumWasteLand);
+				int totalInput = totalTestCase;
+				while (totalInput-- > 0) {
+					String currRoClo[] = bufferedReader.readLine().trim().split(" ");
+					int queryRow = Integer.parseInt(currRoClo[0]);
+					int queryCol = Integer.parseInt(currRoClo[1]);
+					if(currentQeryisWasteLand(queryCol,hashtable.get(queryRow)))
+					{
+						System.out.println("Waste");
+					}
+					else
+					{
+						int totalLandVisited = (queryRow-1)*col + queryCol;//add querycol for current col
+						int indexOfFruit = (totalLandVisited%fruit.length) -1 ;//without introduction of wasteland
+						///introduce wasteland x,y
+						//int x = getCountofWasteLandBeforeCurrentRow(queryRow,hashtable);
+						int x = getCountofWasteLandBeforeCurrentRow(prefixSumWasteLand,queryRow-1);
+						int y = getCountOfWastelandinCurrentRow(queryCol, hashtable.get(queryRow));
+						indexOfFruit = indexOfFruit - (x + y);
+						//
+						if(indexOfFruit<0)
+						{
+							indexOfFruit = indexOfFruit%(-1*fruit.length);
+							if(indexOfFruit<0)
+								indexOfFruit = indexOfFruit+fruit.length;
+						}
+						try {
+							System.out.println(fruit[indexOfFruit]);
+						}
+						catch (Exception e) {
+							System.err.println(queryRow+"---"+queryCol);
+							System.err.println(indexOfFruit);
+						}
+						
+					}
+					
+				}
+			}///buffer
+		}//inputstream
+			hashtable.clear();	
+	}
+ 
+	private static int getCountofWasteLandBeforeCurrentRow(int[] prefixSumWasteLand, int row) {
+		
+		return prefixSumWasteLand[row];
+	}
+
+	private static void preparePrefixSum(Hashtable<Integer, ArrayList<Integer>> hashtable, int[] prefixSumWasteLand) {
+		for(int i = 1;i<prefixSumWasteLand.length;i++)
+		{
+
+			prefixSumWasteLand[i] = hashtable.get(i)!=null?prefixSumWasteLand[i-1] + hashtable.get(i).size():prefixSumWasteLand[i-1];
+		}
+		
+	}
+
+	private static int getCountOfWastelandinCurrentRow(int queryCol, ArrayList<Integer> arrayList) {
+		int count = 0;
+		if(arrayList==null)
+		{ 	return 0;}
+		for(int i =0 ;i<arrayList.size();i++)
+		{
+			//System.out.println(arrayList.get(i)+"------------"+queryCol);
+			if(arrayList.get(i)<queryCol)
+			{
+				//System.out.println(arrayList.get(i)+"******"+queryCol);
+				count++;
+			}
+		}
+		//System.out.println("count of wasteland in current ROW : "+count);
+		return count;
+		
+	}
+ 
+	private static int getCountofWasteLandBeforeCurrentRow(int queryRow,
+			Hashtable<Integer, ArrayList<Integer>> hashtable) {
+		int count=0;
+		//collect frequency of 
+		for(int i =1 ;i<queryRow;i++)
+		{
+			if(hashtable.containsKey(i))
+				count+=hashtable.get(i).size();
+		}
+		return count;
+	}
+ 
+	private static boolean currentQeryisWasteLand(int queryCol, ArrayList<Integer> arrayList) {
+		if(arrayList==null)
+			return false;
+		else
+		{
+			for(int i =0 ;i<arrayList.size();i++)
+			{
+				if(arrayList.get(i)==queryCol)
+					return true;
+			}
+			
+		}
+		return false;
+	}
+ 
+}
+
+
 
