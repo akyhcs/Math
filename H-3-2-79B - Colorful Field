@@ -197,13 +197,9 @@ public class ColorfulField {
 							if(indexOfFruit<0)
 								indexOfFruit = indexOfFruit+fruit.length;
 						}
-						try {
+						
 							System.out.println(fruit[indexOfFruit]);
-						}
-						catch (Exception e) {
-							System.err.println(queryRow+"---"+queryCol);
-							System.err.println(indexOfFruit);
-						}
+						
 						
 					}
 					
